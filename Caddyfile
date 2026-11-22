@@ -1,0 +1,16 @@
+{
+    frankenphp
+    auto_https off
+}
+
+:{$PORT:80} {
+    root * /app/public
+    encode zstd gzip
+
+    # Do not expose application source, config, scripts, or database files.
+    @blocked path /.env* /app/* /database/* /scripts/* /storage/*
+    respond @blocked 404
+
+    php_server
+    file_server
+}
